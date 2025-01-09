@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheese Pizza</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+    <style>
+        /* Styling for the entire page */
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f8f8f8;
+            position: relative;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 30px;
+            font-family: 'Roboto', sans-serif;
+            box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.29);
+            border-radius: 10px 10px 10px 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 0;
+        }
+        
+        header h1 {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-size: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .swiper-container {
+            width: 50%;
+            /* size of images changed */
+            height: 300px;
+        }
+        
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        
+        .swiper-slide img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        /* Rating stars */
+        
+        .rating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .rating input {
+            display: none;
+        }
+        
+        .rating label {
+            font-size: 2em;
+            color: #ccc;
+            padding: 0 5px;
+            cursor: pointer;
+        }
+        
+        .rating input:checked~label,
+        .rating input:hover~label {
+            color: #ffcc00;
+        }
+        
+        .rating input:checked~label:hover,
+        .rating label:hover~input:checked~label {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Cheese Pizza</h1>
+    </header>
+    <main>
+        <div class="content">
+            <!-- Swiper -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="https://images5.alphacoders.com/108/thumb-1920-1083453.jpg" alt="Cheese Pizza Image 1"></div>
+                    <div class="swiper-slide"><img src="https://th.bing.com/th/id/OIP.YHbwaMI-R7qYUwj62LiVSwHaE8?rs=1&pid=ImgDetMain" alt="Cheese Pizza Image  2"></div>
+                    <div class="swiper-slide"><img src="https://thumbs.dreamstime.com/b/rustic-old-style-vintage-pizza-wood-board-fresh-food-131876819.jpg" alt="Cheese Pizza Image  3"></div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Add Navigation -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+
+        <div class="rating">
+            <input type="radio" name="star" id="star1"><label for="star1">&#9733;</label>
+            <input type="radio" name="star" id="star2"><label for="star2">&#9733;</label>
+            <input type="radio" name="star" id="star3"><label for="star3">&#9733;</label>
+            <input type="radio" name="star" id="star4"><label for="star4">&#9733;</label>
+            <input type="radio" name="star" id="star5"><label for="star5">&#9733;</label>
+        </div>
+
+        <div class="average-rating">
+            <span id="average">Average Rating: 0</span> (<span id="count">0</span> ratings)
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            spaceBetween: 30,
+            effect: 'slide',
+            grabCursor: true,
+        });
+
+        // Initialize ratings 
+        let ratings = [];
+        let averageRatingElement = document.getElementById('average');
+        let countElement = document.getElementById('count');
+        let stars = document.querySelectorAll('.rating input');
+        stars.forEach(star => {
+            star.addEventListener('change', function() {
+                ratings.push(parseInt(this.value));
+                updateAverageRating();
+            });
+        });
+
+        function updateAverageRating() {
+            let total = ratings.reduce((acc, rating) => acc + rating, 0);
+            let average = total / ratings.length;
+            averageRatingElement.textContent = `Average Rating: ${average.toFixed(1)}`;
+            countElement.textContent = ratings.length;
+        }
+    </script>
+
+</body>
+
+</html>
